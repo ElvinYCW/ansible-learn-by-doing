@@ -1,0 +1,39 @@
+---
+- hosts: remote
+  become: yes
+  tasks:
+          - name: check connection
+            shell: ping -c1 192.168.50.44
+            register: pingy
+          - debug:
+              var: pingy.stdout_lines
+          - name: create new folder test2
+            shell: mkdir test2
+          - name: list content
+            shell: ls -h
+            register: checkdir
+          - debug:
+              var: checkdir.stdout_lines
+          - name: change to test2 directory
+            shell: pwd
+            args:
+              chdir: test2
+            register: checkchg
+          - debug:
+              var: checkchg.stdout_lines
+          - name: change directory to control
+            shell: cd ..
+          - name: update test1 directory
+            copy:
+              src: /home/control/working/challenge1/text1
+              dest: /home/control/test1
+          - name: move text1 file to test2 directory
+            command: mv test1/text1 test2/
+          - name: create new file
+            shell: touch test1/text2
+          - name: insert text2 file with "Hello World"
+            shell: echo "Hello World" > test1/text2
+          - name: copy new file to test2 directory
+            shell: cp test1/text2 test2/
+          - name: remove text2 in test1 folder
+            shell: rm test1/text2

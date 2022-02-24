@@ -1,2 +1,2 @@
 # Learn Ansible by doing
-I shall be creating some ansible playbook and push into my github repo
+Created an inventory, text1 and ansible playbook with bash commands to be run in remote server
